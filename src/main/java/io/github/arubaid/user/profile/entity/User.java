@@ -27,6 +27,7 @@ public class User {
     @Column(nullable = false, length = 100)
     private String password;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserStatus status = UserStatus.ACTIVE;
