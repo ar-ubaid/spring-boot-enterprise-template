@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: spring-boot-enterprise-template-test
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/spring_boot_enterprise_template_test
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  flyway:
+    enabled: true
+    clean-disabled: false
+
+logging:
+  level:
+    root: WARN
+    org.springframework: WARN
+    io.github.arubaid: INFO
+
+app:
+  jwt:
+    secret: VGhpcy1pcy1hLXRlc3Qtc2VjcmV0LWtleS10aGF0LWlzLWxvbmctZW5vdWdoLWZvci1IUzI1Ng==
+    expiration-ms: 86400000

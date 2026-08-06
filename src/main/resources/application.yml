@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-boot-enterprise-template
+
+  profiles:
+    active: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+info:
+  app:
+    name: Spring Boot Enterprise Template
+    description: A production-ready Spring Boot foundation that eliminates repetitive setup, reduces AI prompt engineering, and helps teams start building scalable backend services from day one.
+    version: 1.0.0
