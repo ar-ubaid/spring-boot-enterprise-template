@@ -4,19 +4,15 @@ import io.github.arubaid.testsupport.integration.AbstractIntegrationTest;
 import io.github.arubaid.user.profile.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
 @Transactional //Automatically rolls back after each test
-@Testcontainers
 class UserRepositoryIT extends AbstractIntegrationTest {
 
     @Autowired
