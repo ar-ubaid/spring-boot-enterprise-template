@@ -16,7 +16,7 @@ public abstract class AbstractIntegrationTest {
     @Container
     static final PostgreSQLContainer POSTGRES =
             new PostgreSQLContainer("postgres:18")
-                    .withDatabaseName("promio_test")
+                    .withDatabaseName("spring_boot_enterprise_template_test")
                     .withUsername("postgres")
                     .withPassword("postgres");
 
