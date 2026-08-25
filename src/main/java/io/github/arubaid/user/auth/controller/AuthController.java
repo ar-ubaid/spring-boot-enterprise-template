@@ -1,9 +1,8 @@
 package io.github.arubaid.user.auth.controller;
 
-import io.github.arubaid.user.auth.dto.AuthResponse;
-import io.github.arubaid.user.auth.dto.LoginRequest;
-import io.github.arubaid.user.auth.dto.RegisterRequest;
+import io.github.arubaid.user.auth.dto.*;
 import io.github.arubaid.user.auth.service.AuthService;
+import io.github.arubaid.user.auth.service.PasswordResetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final PasswordResetService passwordResetService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
@@ -28,5 +28,28 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
+    }
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(
+            @Valid @RequestBody ForgotPasswordRequest request
+    ) {
+
+        passwordResetService.requestPasswordReset(
+                request.getEmail()
+        );
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(
+            @Valid @RequestBody ResetPasswordRequest request
+    ) {
+        passwordResetService.resetPassword(
+                request.getToken(),
+                request.getNewPassword()
+        );
+
+        return ResponseEntity.noContent().build();
     }
 }

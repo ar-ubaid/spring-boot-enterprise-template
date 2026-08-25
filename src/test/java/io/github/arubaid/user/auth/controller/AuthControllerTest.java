@@ -6,6 +6,7 @@ import io.github.arubaid.user.auth.dto.AuthResponse;
 import io.github.arubaid.user.auth.dto.LoginRequest;
 import io.github.arubaid.user.auth.dto.RegisterRequest;
 import io.github.arubaid.user.auth.service.AuthService;
+import io.github.arubaid.user.auth.service.PasswordResetService;
 import io.github.arubaid.user.profile.dto.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,7 +37,114 @@ class AuthControllerTest {
     private AuthService authService;
 
     @MockitoBean
+    private PasswordResetService passwordResetService;
+
+    @MockitoBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Test
+    void shouldRequestPasswordResetSuccessfully() throws Exception {
+        mockMvc.perform(
+                        post("/api/v1/auth/forgot-password")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                            {
+                                "email": "user@example.com"
+                            }
+                            """)
+                )
+                .andExpect(status().isNoContent());
+
+        verify(passwordResetService)
+                .requestPasswordReset("user@example.com");
+    }
+
+    @Test
+    void shouldRejectInvalidForgotPasswordEmail() throws Exception {
+        mockMvc.perform(
+                        post("/api/v1/auth/forgot-password")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                            {
+                                "email": "not-an-email"
+                            }
+                            """)
+                )
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(passwordResetService);
+    }
+
+    @Test
+    void shouldRejectBlankForgotPasswordEmail() throws Exception {
+        mockMvc.perform(
+                        post("/api/v1/auth/forgot-password")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                            {
+                                "email": ""
+                            }
+                            """)
+                )
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(passwordResetService);
+    }
+
+    @Test
+    void shouldResetPasswordSuccessfully() throws Exception {
+        mockMvc.perform(
+                        post("/api/v1/auth/reset-password")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                            {
+                                "token": "valid-reset-token",
+                                "newPassword": "newPassword123"
+                            }
+                            """)
+                )
+                .andExpect(status().isNoContent());
+
+        verify(passwordResetService)
+                .resetPassword(
+                        "valid-reset-token",
+                        "newPassword123"
+                );
+    }
+
+    @Test
+    void shouldRejectBlankResetToken() throws Exception {
+        mockMvc.perform(
+                        post("/api/v1/auth/reset-password")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                            {
+                                "token": "",
+                                "newPassword": "newPassword123"
+                            }
+                            """)
+                )
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(passwordResetService);
+    }
+
+    @Test
+    void shouldRejectShortResetPassword() throws Exception {
+        mockMvc.perform(
+                        post("/api/v1/auth/reset-password")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                            {
+                                "token": "valid-reset-token",
+                                "newPassword": "123"
+                            }
+                            """)
+                )
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(passwordResetService);
+    }
 
     @Test
     void shouldRegisterUserSuccessfully() throws Exception {
