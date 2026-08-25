@@ -39,6 +39,11 @@ management:
     readinessstate:
       enabled: true
 
+app:
+  mail:
+    mode: log
+    from: no-reply@example.com
+
 info:
   app:
     name: Spring Boot Enterprise Template

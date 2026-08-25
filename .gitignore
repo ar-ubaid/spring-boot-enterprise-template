@@ -69,8 +69,8 @@ log/
 ##############################
 # Spring Boot
 ##############################
-application-dev.yml
-application-dev.yaml
+!application-dev.yml
+!application-dev.yaml
 !application-prod.yml
 !application-prod.yaml
 application-local.yml
