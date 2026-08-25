@@ -20,7 +20,7 @@ jobs:
       postgres:
         image: postgres:18
         env:
-          POSTGRES_DB: spring_boot_enterprise_template_test
+          POSTGRES_DB: spring_boot_enterprise_template
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:
@@ -52,4 +52,4 @@ jobs:
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
           # Match the postgres service container running on localhost:5432
-          DB_URL: jdbc:postgresql://localhost:5432/spring_boot_enterprise_template_test
+          DB_URL: jdbc:postgresql://localhost:5432/spring_boot_enterprise_template
