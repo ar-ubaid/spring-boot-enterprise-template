@@ -16,6 +16,21 @@ jobs:
     permissions:
       contents: read
 
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: spring_boot_enterprise_template_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
 
       - name: Checkout source
@@ -33,3 +48,8 @@ jobs:
 
       - name: Verify project
         run: ./mvnw clean verify
+        env:
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+          # Match the postgres service container running on localhost:5432
+          DB_URL: jdbc:postgresql://localhost:5432/spring_boot_enterprise_template_test
