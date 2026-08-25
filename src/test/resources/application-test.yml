@@ -19,6 +19,11 @@ spring:
     enabled: true
     clean-disabled: false
 
+  # Prevents JavaMailSender auto-configuration failures in CI
+  mail:
+    host: localhost
+    port: 1025
+
 logging:
   level:
     root: WARN
@@ -29,3 +34,12 @@ app:
   jwt:
     secret: VGhpcy1pcy1hLXRlc3Qtc2VjcmV0LWtleS10aGF0LWlzLWxvbmctZW5vdWdoLWZvci1IUzI1Ng==
     expiration-ms: 86400000
+
+  # Explicitly supplies missing mail properties required for test context
+  mail:
+    mode: log
+    from: test-no-reply@enterprise.local
+
+  password-reset:
+    url: http://localhost:3000/reset-password
+    expiration: 15m

@@ -33,7 +33,7 @@ app:
 
   mail:
     mode: smtp
-    from: ${MAIL_FROM}
+    from: ${MAIL_FROM:no-reply@template.local}
 
   password-reset:
     url: ${PASSWORD_RESET_URL}
