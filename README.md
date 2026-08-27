@@ -787,6 +787,31 @@ The AI spends less effort generating infrastructure and more effort implementing
 
 ---
 
+## Companion Frontend
+
+Looking for a frontend to pair with this backend?
+
+The [Next.js Enterprise Template](https://github.com/ar-ubaid/nextjs-enterprise-template) provides a modern React/Next.js foundation designed to integrate seamlessly with this Spring Boot backend.
+
+It includes:
+
+* **TypeScript** for type safety
+* **Tailwind CSS** for responsive design
+* **Authentication integration** with JWT token management
+* **REST API client** pre-configured for your backend
+* **Environment-based configuration** for development and production
+* **Production-ready** build and deployment setup
+
+Just as this template eliminates backend infrastructure decisions, the frontend template handles the modern React ecosystem setup so you can focus on building your user interface.
+
+**Backend + Frontend = Complete Application Foundation**
+
+Start building full-stack applications without spending weeks on project configuration.
+
+Repository: [nextjs-enterprise-template](https://github.com/ar-ubaid/nextjs-enterprise-template)
+
+---
+
 ## Development Philosophy
 
 This project follows a few core principles:
